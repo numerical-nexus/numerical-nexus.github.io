@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerical Nexus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar p-3">
+                <h4 class="text-center">Algorithms</h4>
+                
+                <div class="mb-3">
+                    <label for="algorithm-dropdown" class="form-label">Select an Algorithm</label>
+                    <select id="algorithm-dropdown" class="form-select">
+                        <option value="">Select...</option>
+                        <optgroup label="Matrix & Tensor Decompositions">
+                            <option value="https://example.com/svd">Singular Value Decomposition (SVD)</option>
+                            <option value="https://example.com/pca">Principal Component Analysis (PCA)</option>
+                        </optgroup>
+                        <optgroup label="Numerical PDE Algorithms">
+                            <option value="https://example.com/finite-difference">Finite Difference Method</option>
+                            <option value="https://example.com/spectral">Spectral Methods</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 col-lg-10 p-4">
+                <iframe id="tutorial-frame" src="about:blank" class="w-100 border rounded shadow"></iframe>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
