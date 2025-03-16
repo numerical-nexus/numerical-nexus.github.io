@@ -37,8 +37,7 @@ jobs:
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
-          retention-days: 1
+          path: _site
 
   deploy:
     needs: build
