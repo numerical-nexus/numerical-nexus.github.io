@@ -30,14 +30,14 @@ jobs:
         run: |
           uv pip install marimo
 
-      - name: 🛠️ Run build script (Generates `_site/`)
+      - name: 🛠️ Export notebooks
         run: |
           python scripts/build.py
 
-      - name: 📤 Upload `_site/` as GitHub Pages artifact
+      - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site  # Deploy `_site/` as the root for GitHub Pages
+          path: _site
 
   deploy:
     needs: build
@@ -51,6 +51,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: 🚀 Deploy `_site/` to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
