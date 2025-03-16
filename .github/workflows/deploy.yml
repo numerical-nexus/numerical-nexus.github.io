@@ -34,10 +34,12 @@ jobs:
         run: |
           python scripts/build.py
 
-      - name: 📝 Copy _site/index.html to Root
-        run: cp _site/index.html index.html
+      - name: 📝 Remove old root index.html and copy the new one
+        run: |
+          rm -f index.html  # Remove old root index.html if it exists
+          cp _site/index.html index.html  # Copy new version from _site/
 
-      - name: 📤 Upload artifact
+      - name: 📤 Upload artifact (Deploy Everything)
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
