@@ -34,16 +34,10 @@ jobs:
         run: |
           python scripts/build.py
 
-      - name: 🔍 Debug: Check if `_site/` was created
-        run: |
-          ls -la
-          ls -la _site/ || echo "_site directory NOT FOUND"
-
-      - name: 📤 Upload `_site/` as GitHub Pages artifact (If It Exists)
-        if: success()
+      - name: 📤 Upload `_site/` as GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site  # Deploy `_site/` as the website root
+          path: _site  # Deploy `_site/` as the root for GitHub Pages
 
   deploy:
     needs: build
