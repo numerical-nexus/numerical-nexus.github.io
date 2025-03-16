@@ -21,7 +21,8 @@ def _(mo):
 
 @app.cell
 def _(mo, np, plt):
-    iris = plt.imread('public/svd_image_compression_iris.png')
+    url = str(mo.notebook_location()) + '/public/svd_image_compression_iris.png'
+    iris = np.array(PIL.Image.open(urllib.request.urlopen(url)))
     iris = np.dot(iris[..., :3], [0.2989, 0.5870, 0.1140])
 
     (U, S, VT) = np.linalg.svd(iris, full_matrices=False)
