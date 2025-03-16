@@ -40,7 +40,7 @@ def export_html_wasm(notebook_path: str, output_dir: str, as_app: bool = False) 
 
 
 def generate_index(all_notebooks: List[str], output_dir: str) -> None:
-    """Generate the index.html file."""
+    """Generate the index.html file with sidebar and iframe."""
     print("Generating index.html")
 
     index_path = os.path.join(output_dir, "index.html")
@@ -51,36 +51,62 @@ def generate_index(all_notebooks: List[str], output_dir: str) -> None:
             f.write(
                 """<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>marimo howdy</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  </head>
-  <body class="font-sans max-w-2xl mx-auto p-8 leading-relaxed">
-    <div class="mb-8">
-      <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo" class="h-20" />
-    </div>
-    <div class="grid gap-4">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marimo Notebooks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar p-3">
+                <h4 class="text-center">Marimo Notebooks</h4>
+                
+                <div class="mb-3">
+                    <label for="notebook-dropdown" class="form-label">Select a Notebook</label>
+                    <select id="notebook-dropdown" class="form-select">
+                        <option value="">Select...</option>
 """
             )
+
+            # Add options dynamically
             for notebook in all_notebooks:
                 notebook_name = notebook.split("/")[-1].replace(".py", "")
                 display_name = notebook_name.replace("_", " ").title()
+                notebook_path = notebook.replace(".py", ".html")
 
-                f.write(
-                    f'      <div class="p-4 border border-gray-200 rounded">\n'
-                    f'        <h3 class="text-lg font-semibold mb-2">{display_name}</h3>\n'
-                    f'        <div class="flex gap-2">\n'
-                    f'          <a href="{notebook.replace(".py", ".html")}" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded">Open Notebook</a>\n'
-                    f"        </div>\n"
-                    f"      </div>\n"
-                )
+                f.write(f'                        <option value="{notebook_path}">{display_name}</option>\n')
+
             f.write(
-                """    </div>
-  </body>
+                """                    </select>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 col-lg-10 p-4">
+                <iframe id="notebook-frame" src="about:blank" class="w-100 border rounded shadow" style="height: 90vh;"></iframe>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const frame = document.getElementById("notebook-frame");
+            const notebookDropdown = document.getElementById("notebook-dropdown");
+
+            notebookDropdown.addEventListener("change", function () {
+                frame.src = this.value || "about:blank";
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>"""
             )
+
     except IOError as e:
         print(f"Error generating index.html: {e}")
 
