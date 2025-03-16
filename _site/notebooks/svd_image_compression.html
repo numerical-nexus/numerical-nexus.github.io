@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='edit' hidden></marimo-mode>
+    <marimo-version data-version='0.11.20' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "on_cell_change": "autorun", "watcher_on_save": "lazy", "output_max_bytes": 8000000, "std_stream_max_bytes": 1000000, "pythonpath": []}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "language_servers": {"pylsp": {"enabled": true, "enable_mypy": true, "enable_ruff": true, "enable_flake8": false, "enable_pydocstyle": false, "enable_pylint": false, "enable_pyflakes": false}}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>svd image compression</title>
+    <script type="module" crossorigin src="./assets/index-nRV3XiJW.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CAw9nj6y.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.11.20%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20return%20mo%2C%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20mo.md(r%22%22%22%23%20SVD%20for%20Image%20Compression%22%22%22)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(mo%2C%20np%2C%20plt)%3A%0A%20%20%20%20iris%20%3D%20plt.imread('public%2Fsvd_image_compression_iris.png')%0A%20%20%20%20iris%20%3D%20np.dot(iris%5B...%2C%20%3A3%5D%2C%20%5B0.2989%2C%200.5870%2C%200.1140%5D)%0A%0A%20%20%20%20(U%2C%20S%2C%20VT)%20%3D%20np.linalg.svd(iris%2C%20full_matrices%3DFalse)%0A%20%20%20%20S_vals%20%3D%20S.copy()%0A%20%20%20%20S%20%3D%20np.diag(S)%0A%0A%20%20%20%20r_min%2C%20r_max%20%3D%201%2C%20len(S_vals)%0A%20%20%20%20r_slider%20%3D%20mo.ui.slider(r_min%2C%20r_max%2C%20value%3Dr_min%2C%20show_value%3DTrue%2C%20full_width%3DTrue%2C%20label%3D'Rank')%0A%20%20%20%20return%20S%2C%20S_vals%2C%20U%2C%20VT%2C%20iris%2C%20r_max%2C%20r_min%2C%20r_slider%0A%0A%0A%40app.cell%0Adef%20_(S%2C%20S_vals%2C%20U%2C%20VT%2C%20iris%2C%20mo%2C%20np%2C%20plt%2C%20r_slider)%3A%0A%20%20%20%20r%20%3D%20r_slider.value%0A%20%20%20%20w%2C%20h%20%3D%20350%2C%20350%0A%20%20%20%20hori_images%20%3D%20mo.hstack(%5B%0A%20%20%20%20%20%20%20%20mo.image(iris%2C%20width%3Dw%2C%20height%3Dh)%2C%0A%20%20%20%20%20%20%20%20mo.image(U%5B%3A%2C%3Ar%5D%20%40%20S%5B%3Ar%2C%20%3Ar%5D%20%40%20VT%5B%3Ar%2C%20%3A%5D%2C%20width%3Dw%2C%20height%3Dh)%0A%20%20%20%20%5D)%0A%0A%20%20%20%20fig_S_vals%20%3D%20plt.figure()%0A%20%20%20%20plt.semilogy(S_vals)%0A%20%20%20%20plt.axvline(x%3Dr%2C%20color%3D'r')%0A%20%20%20%20plt.title('Singular%20Values%20Sorted%20by%20Magnitude')%0A%20%20%20%20plt.ylabel(r'Singular%20value%2C%20%24%5Csigma%24')%0A%20%20%20%20plt.xlabel(r'Rank%2C%20%24r%24')%0A%0A%20%20%20%20fig_S_cumsum%20%3D%20plt.figure()%0A%20%20%20%20plt.plot(np.cumsum(S_vals)%20%2F%20np.sum(S_vals))%0A%20%20%20%20plt.axvline(x%3Dr%2C%20color%3D'r')%0A%20%20%20%20plt.title('Cumulative%20Sum%20of%20Singular%20Values')%0A%20%20%20%20plt.ylabel('Cumulative%20sum')%0A%20%20%20%20plt.xlabel(r'Rank%2C%20%24r%24')%0A%0A%20%20%20%20hori_plots%20%3D%20mo.hstack(%5B%0A%20%20%20%20%20%20%20%20fig_S_vals%2C%0A%20%20%20%20%20%20%20%20fig_S_cumsum%0A%20%20%20%20%5D)%0A%0A%20%20%20%20comp_ratio_text%20%3D%20%5C%0A%20%20%20%20r%22%22%22%0A%20%20%20%20%24%24%5Ctext%7BCompression%20Ratio%7D%2C%20C%20%3D%20%5Cfrac%7Bmr%20%2B%20r%20%2B%20nr%7D%7Bmn%7D%20%20%3D%20%5Cfrac%7Br(m%20%2B%201%20%2B%20n)%7D%7Bmn%7D%24%24.%0A%20%20%20%20%22%22%22%0A%20%20%20%20accord_equations%20%3D%20mo.accordion(%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22Equations%22%20%20%20%3A%20mo.md(comp_ratio_text)%2C%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20)%0A%20%20%20%20%23%20vert_definitions%20%3D%20mo.vstack(%5B%0A%20%20%20%20%23%20%20%20%20%20mo.md(comp_ratio_text)%2C%0A%20%20%20%20%23%20%20%20%20%20mo.md(r%22%24m%24%20%3D%20Number%20of%20rows%20of%20image%22)%2C%0A%20%20%20%20%23%20%20%20%20%20mo.md(r%22%24n%24%20%3D%20Number%20of%20columns%20of%20image%22)%2C%0A%20%20%20%20%23%20%20%20%20%20mo.md(r%22%24r%24%20%3D%20Rank%20of%20approximation%22)%2C%0A%20%20%20%20%23%20%5D)%0A%0A%20%20%20%20m%2C%20n%20%3D%20iris.shape%0A%20%20%20%20C%20%3D%20(r%20*%20(m%20%2B%201%20%2B%20n))%20%2F%20(m%20*%20n)%0A%20%20%20%20hori_compression%20%3D%20mo.hstack(%5B%0A%20%20%20%20%20%20%20%20mo.md(f%22C%20%3D%20%7BC%3A.3f%7D%22)%2C%0A%20%20%20%20%20%20%20%20mo.md(f%22Stores%20%7BC*100%3A.3f%7D%25%20of%20the%20data.%22)%2C%0A%20%20%20%20%20%20%20%20mo.md(f%22Cumulative%20sum%20of%20singular%20values%20%3D%20%7Bnp.sum(S_vals%5B%3Ar%5D%20%2F%20np.sum(S_vals))%3A.3f%7D%22)%0A%20%20%20%20%5D)%0A%0A%20%20%20%20mo.vstack(%5B%0A%20%20%20%20%20%20%20%20r_slider%2C%0A%20%20%20%20%20%20%20%20accord_equations%2C%0A%20%20%20%20%20%20%20%20hori_compression%2C%0A%20%20%20%20%20%20%20%20hori_images%2C%0A%20%20%20%20%20%20%20%20hori_plots%0A%20%20%20%20%5D)%0A%20%20%20%20return%20(%0A%20%20%20%20%20%20%20%20C%2C%0A%20%20%20%20%20%20%20%20accord_equations%2C%0A%20%20%20%20%20%20%20%20comp_ratio_text%2C%0A%20%20%20%20%20%20%20%20fig_S_cumsum%2C%0A%20%20%20%20%20%20%20%20fig_S_vals%2C%0A%20%20%20%20%20%20%20%20h%2C%0A%20%20%20%20%20%20%20%20hori_compression%2C%0A%20%20%20%20%20%20%20%20hori_images%2C%0A%20%20%20%20%20%20%20%20hori_plots%2C%0A%20%20%20%20%20%20%20%20m%2C%0A%20%20%20%20%20%20%20%20n%2C%0A%20%20%20%20%20%20%20%20r%2C%0A%20%20%20%20%20%20%20%20w%2C%0A%20%20%20%20)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
