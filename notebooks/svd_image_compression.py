@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.11.20"
+__generated_with = "0.11.0"
 app = marimo.App(width="medium")
 
 
@@ -9,8 +9,9 @@ def _():
     import marimo as mo
     import numpy as np
     import matplotlib.pyplot as plt
-
-    return mo, np, plt
+    import PIL
+    import urllib
+    return PIL, mo, np, plt, urllib
 
 
 @app.cell
@@ -22,7 +23,8 @@ def _(mo):
 @app.cell
 def _(mo, np, plt):
     url = str(mo.notebook_location()) + '/public/svd_image_compression_iris.png'
-    iris = np.array(PIL.Image.open(urllib.request.urlopen(url)))
+    # iris = np.array(PIL.Image.open(urllib.request.urlopen(url)))
+    iris = plt.imread('./public/svd_image_compression_iris.png')
     iris = np.dot(iris[..., :3], [0.2989, 0.5870, 0.1140])
 
     (U, S, VT) = np.linalg.svd(iris, full_matrices=False)
@@ -31,8 +33,7 @@ def _(mo, np, plt):
 
     r_min, r_max = 1, len(S_vals)
     r_slider = mo.ui.slider(r_min, r_max, value=r_min, show_value=True, full_width=True, label='Rank')
-
-    return S, S_vals, U, VT, iris, r_max, r_min, r_slider
+    return S, S_vals, U, VT, iris, r_max, r_min, r_slider, url
 
 
 @app.cell
@@ -94,7 +95,6 @@ def _(S, S_vals, U, VT, iris, mo, np, plt, r_slider):
         hori_images,
         hori_plots
     ])
-
     return (
         C,
         accord_equations,
